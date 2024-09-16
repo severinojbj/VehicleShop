@@ -1,10 +1,12 @@
 package app.java.business.impl;
 
+import app.java.basic.Shop;
 import app.java.basic.Vehicle;
+import app.java.basic.VehicleBrand;
 import app.java.business.IVehicleBusiness;
+import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
 import app.java.exception.DataNotExistsException;
-import app.java.exception.EmptyDataException;
 import app.java.repository.VehicleRepository;
 import java.util.List;
 
@@ -24,66 +26,86 @@ public class VehicleBusiness implements IVehicleBusiness {
         this.vehicleData = vehicleData;
     }
 
-    @Override
-    public List<Vehicle> listAllVehicles() throws EmptyDataException {
-        List<Vehicle> resp = this.vehicleData.getVehicles();
-        if (resp.isEmpty()) {
-            throw new EmptyDataException ("Vehicle");
+    private Vehicle internalSearchVehicleByPlate (String plate) {
+        Vehicle resp = null;
+        List<Vehicle> list = this.vehicleData.getVehicles();
+        if (list != null) {
+            int counter = 0;
+            boolean isEqual = false;
+            while (!isEqual && counter < list.size()) {
+                isEqual = list.get(counter).getPlate().equals(plate);
+                if (isEqual) {
+                    resp = list.get(counter);
+                }
+                counter++;
+            }             
         }
         return resp;
     }
 
     @Override
-    public Vehicle searchVehicleByPlate(String plate) throws DataNotExistsException, EmptyDataException {
-        Vehicle resp = null;
-        List<Vehicle> list = this.listAllVehicles();
-        for (Vehicle item: list) {
-            if (item.getPlate().equals(plate)) {
-                resp = item;
-            }
-        }
+    public List<Vehicle> listAllVehicles() throws DataNotExistsException {
+        List<Vehicle> resp = this.vehicleData.getVehicles();
         if (resp == null) {
             throw new DataNotExistsException ("Vehicle");
-        }                
+        }
         return resp;
     }
 
     @Override
-    public void insertVehicle(Vehicle vehicle) throws DataExistsException, EmptyDataException {
-        if (vehicle != null) {
-            try {
-                Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
-                throw new DataExistsException ("Vehicle");
-            }
-            catch (DataNotExistsException e) {
-                this.vehicleData.addVehicle(vehicle);
-            }    
+    public Vehicle searchVehicleByPlate(String plate) throws DataEmptyException, DataNotExistsException {
+        Vehicle resp = null;
+        if (plate != null) {
+            resp = this.internalSearchVehicleByPlate(plate);
+            if (resp == null) {
+                throw new DataNotExistsException ("Vehicle");
+            } 
         }
         else {
-            throw new EmptyDataException ("Vehicle");
+            throw new DataEmptyException ("Vehicle");
+        }                       
+        return resp;
+    }
+
+    @Override
+    public void insertVehicle(VehicleBrand brand, String model, String plate, String category,
+            String description, int year, double price) throws DataEmptyException, DataExistsException {    
+        if (plate != null) {
+            Vehicle vehicle = this.internalSearchVehicleByPlate(plate);
+            if (vehicle == null) {
+                vehicle = new Vehicle (brand, model, plate, category,
+                    description, year, price);
+            }   
+            else {
+                throw new DataExistsException ("Vehicle");
+            }             
+        }
+        else {
+            throw new DataEmptyException ("Vehicle");
         }
     }
 
     @Override
-    public void updateVehicle(Vehicle vehicle) throws DataNotExistsException, EmptyDataException {
-        if (vehicle != null) {
-            Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
+    public void updateVehicle (VehicleBrand brand, String model, String plate, String category,
+    String description, int year, double price) throws DataEmptyException, DataNotExistsException {
+        Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
+        if (vehicleExists != null) {
             int index = this.vehicleData.getVehicles().indexOf(vehicleExists);
             this.vehicleData.updateVehicle (index, vehicle);
         }
         else {
-            throw new EmptyDataException ("Vehicle");
-        }
+            throw new DataNotExistsException ("Vehicle");
+        }   
     }
 
     @Override
-    public void deleteVehicle(Vehicle vehicle) throws DataNotExistsException, EmptyDataException {
-        if (vehicle != null) {
-            Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
+    public void deleteVehicle(String plate) throws DataEmptyException, DataNotExistsException {
+        Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
+        if (vehicleExists != null) {
             this.vehicleData.removeVehicle (vehicleExists);
         }
         else {
-            throw new EmptyDataException ("Vehicle");
+            throw new DataNotExistsException ("Vehicle");
         }
     }
   

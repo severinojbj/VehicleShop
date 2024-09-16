@@ -1,9 +1,9 @@
 package app.java.exception;
 
-public class EmptyDataException extends Exception {
+public class DataEmptyException extends Exception {
     private String objectError;
 
-    public EmptyDataException (String objectError) {
+    public DataEmptyException (String objectError) {
         this.objectError = objectError;
     }
 
@@ -14,5 +14,4 @@ public class EmptyDataException extends Exception {
     public void setObjectError(String objectError) {
         this.objectError = objectError;
     }
-
 }

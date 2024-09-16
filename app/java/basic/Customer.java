@@ -1,26 +1,13 @@
 package app.java.basic;
 public class Customer extends Person {
     
-    private String name;
-
     public Customer () {
     }
 
-    public Customer (String name) {
-        super();
+    public Customer (String CPF, String name, String phoneNumber) {
+        this.CPF = CPF;
         this.name = name;
+        this.phoneNumber = phoneNumber;
     }
 
-    public Customer (String cPF, String name) {
-        this.setCPF(cPF);
-        this.name = name;
-    }
-
-    public String getName () {
-        return name;
-    }
-
-    public void setName (String name) {
-        this.name = name;
-    }   
 }

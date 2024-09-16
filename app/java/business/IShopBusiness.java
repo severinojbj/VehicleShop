@@ -1,21 +1,23 @@
 package app.java.business;
 
 import app.java.basic.Shop;
+import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
 import app.java.exception.DataNotExistsException;
-import app.java.exception.EmptyDataException;
 import java.util.List;
 
 public interface IShopBusiness {
 
-    public List<Shop> listAllShops () throws EmptyDataException;
+    public List<Shop> listAllShops () throws DataNotExistsException;
 
-    public Shop searchShopByID (int id) throws DataNotExistsException, EmptyDataException;    
+    public Shop searchShopByID (int id) throws DataNotExistsException;
 
-    public void insertShop (Shop shop) throws DataExistsException, EmptyDataException;
+    public Shop searchShopByName(String name) throws DataEmptyException, DataNotExistsException;
 
-    public void updateShop (Shop shop) throws DataNotExistsException, EmptyDataException;
+    public void insertShop (String name, String location, String phoneNumber) throws DataEmptyException, DataExistsException;
 
-    public void deleteShop (Shop shop) throws DataNotExistsException, EmptyDataException;   
+    public void updateShop (String name, String location, String phoneNumber) throws DataEmptyException, DataNotExistsException;
+
+    public void deleteShop (String name) throws DataEmptyException, DataNotExistsException;   
 
 }

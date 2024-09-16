@@ -6,18 +6,20 @@ public class Sale {
     private Customer customer;
     private Seller seller;
     private Vehicle car;
+    private String sellData;
     
     public Sale () {
 
     }
 
-    public Sale (int id, double value, Customer customer, Seller seller, Vehicle car) {
+    public Sale (int id, double value, Customer customer, Seller seller, Vehicle car, String sellData) {
         
         this.id = id;
         this.value = value;
         this.customer = customer;
         this.seller = seller;
         this.car = car;
+        this.sellData = sellData;
     }
 
     public int getId() {
@@ -59,5 +61,13 @@ public class Sale {
     public void setCar (Vehicle car) {
         this.car = car;
     }    
+
+    public String getSellData() {
+        return sellData;
+    }
+
+    public void setSellData(String sellData) {
+        this.sellData = sellData;
+    }
 
 }

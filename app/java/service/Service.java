@@ -1,29 +1,21 @@
 package app.java.service;
 
 import app.java.basic.Customer;
-import app.java.basic.Sale;
-import app.java.basic.Seller;
-import app.java.basic.Shop;
-import app.java.basic.Vehicle;
-import app.java.basic.VehicleBrand;
 import app.java.business.ICustomerBusiness;
 import app.java.business.ISaleBusiness;
 import app.java.business.ISellerBusiness;
 import app.java.business.IShopBusiness;
 import app.java.business.IVehicleBrandBusiness;
-// import app.java.business.IVehicleBrandBusiness;
 import app.java.business.IVehicleBusiness;
-
 import app.java.business.impl.CustomerBusiness;
 import app.java.business.impl.SaleBusiness;
 import app.java.business.impl.SellerBusiness;
 import app.java.business.impl.ShopBusiness;
 import app.java.business.impl.VehicleBrandBusiness;
 import app.java.business.impl.VehicleBusiness;
+import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
-// import app.java.business.impl.VehicleBrandBusiness;
 import app.java.exception.DataNotExistsException;
-import app.java.exception.EmptyDataException;
 
 public class Service {
 
@@ -44,117 +36,135 @@ public class Service {
         this.vehicleBrandBusiness = new VehicleBrandBusiness();
     }
 
-    private String insertVehicleBrand (String brandName) {
-        String message = "Marca cadastrada com sucesso.";
-        VehicleBrand brand;
-        int regNumber = 0;
+    
 
+    public String searchCustomerByCPF (String CPF) {
+        String message = "";
         try {
-            regNumber = this.vehicleBrandBusiness.listAllVehicleBrands().size();
-            // brand = new VehicleBrand (regNumber, brandName);
-            // this.vehicleBrandBusiness.insertVehicleBrand(brand);
-            message = "Marca já existente.";
+            Customer customer = this.customerBusiness.searchCustomerByCPF(CPF);
+            message = "Cliente encontrado. " + customer.toString();
         }
-        catch (EmptyDataException e1) {
-            message = "Primeira marca.";
+        catch (DataNotExistsException e1) {
+            message = "ERRO: ao procurar dados do cliente -> CPF não enmcontrado.";
         }
-        
-        brand = new VehicleBrand (0, brandName);
-        this.vehicleBrandBusiness.insertVehicleBrand(brand);
-        
-        catch (DataExistsException e2) {
-            message = "ERRO: problema na inserção de nova marca com dado existente: " + e2.getObjectError();
+        catch (DataEmptyException e2) {
+            message = "ERRO: ao procurar dados do cliente -> CPF não informado ou ausente.";
         }
-
+        catch (Exception e3) {
+            message = "ERRO: ao procurar dados do cliente -> falha desconhecida.";
+        }
         return message;
     }
 
-    public String insertVehicle (String brandName, String model, String plate) {
-        
-        String message = "Veículo cadastrado com sucesso";
-        VehicleBrand brand = null;
-        Vehicle newVehicle = null;
-        try {        
-            brand = this.vehicleBrandBusiness.searchVehicleBrandByName(brandName);
-        }
-        catch (DataNotExistsException e) {
-            message = this.insertVehicleBrand(brandName);
-        }
-        catch (EmptyDataException e) {
-            if (e.getObjectError().equals ("String")) {
-                message = "ERRO: a marca do veículo está ausente na inserção do veículo.";
-            }
-            else {
-                message = "ERRO: algum dado está ausente na inserção do veículo.";
-            }
-        }
-        
+    public String insertCustomer (String CPF, String name, String phoneNumber) {
+        String message = String.format("Cliente CPF %s, NOME %s adicionado com sucesso.", CPF, name);        
         try {
-            newVehicle = new Vehicle(brand, model, plate);
-            this.vehicleBusiness.insertVehicle(newVehicle);
+            this.customerBusiness.insertCustomer(CPF, name, phoneNumber);
         }
-        catch () {
-
+        catch (DataExistsException e1) {
+            message = "ERRO: ao inserir dados do cliente -> CPF já cadastrado.";
         }
-
-        
+        catch (DataEmptyException e2) {
+            message = "ERRO: ao inserir dados do cliente -> CPF não informado ou ausente.";
+        }
+        catch (Exception e3) {
+            message = "ERRO: ao inserir dados do cliente -> falha desconhecida.";
+        }
         return message;
     }
 
-    public void updateVehicle (Vehicle v) {
-        this.vehicleBusiness.updateVehicle(v);
+    public String updateCustomer (String CPF, String name, String phoneNumber) {
+        String message = String.format("Cliente CPF %s, NOME %s atualizado com sucesso.", CPF, name);        
+        try {
+            this.customerBusiness.updateCustomer(CPF, name, phoneNumber);
+        }
+        catch (DataNotExistsException e1) {
+            message = "ERRO: ao atualizar dados do cliente -> CPF não cadastrado.";
+        }
+        catch (DataEmptyException e2) {
+            message = "ERRO: ao atualizar dados do cliente -> CPF não informado ou ausente.";
+        }
+        catch (Exception e3) {
+            message = "ERRO: ao atualizar dados do cliente -> falha desconhecida.";
+        }
+        return message;
     }
 
-    public void deleteVehicle (Vehicle v) {
-        this.vehicleBusiness.insertVehicle(v);
+    public String deleteCustomer (String CPF) {
+        String message = String.format("Cliente CPF %s removido com sucesso.", CPF);        
+        try {
+            this.customerBusiness.deleteCustomer(CPF);
+        }
+        catch (DataNotExistsException e1) {
+            message = "ERRO: ao atualizar dados do cliente -> CPF não cadastrado.";
+        }
+        catch (DataEmptyException e2) {
+            message = "ERRO: ao atualizar dados do cliente -> CPF não informado ou ausente.";
+        }
+        catch (Exception e3) {
+            message = "ERRO: ao atualizar dados do cliente -> falha desconhecida.";
+        }
+        return message;
     }
 
-    public void insertShop (Shop s) {
-        this.shopBusiness.insertShop(s);
+    // public void insertSale (Sale s) {
+    //     this.saleBusiness.insertSale(s);
+    // }
+
+    // public void updateSale (Sale s) {
+    //     this.saleBusiness.updateSale(s);
+    // }
+
+    // public void deleteSale (Sale s) {
+    //     this.saleBusiness.deleteSale(s);
+    // }
+
+    public ICustomerBusiness getCustomerBusiness() {
+        return customerBusiness;
     }
 
-    public void updateShop (Shop s) {
-        this.shopBusiness.updateShop(s);
+    public void setCustomerBusiness(ICustomerBusiness customerBusiness) {
+        this.customerBusiness = customerBusiness;
     }
 
-    public void deleteShop (Shop s) {
-        this.shopBusiness.deleteShop(s);
+    public ISaleBusiness getSaleBusiness() {
+        return saleBusiness;
     }
 
-    public void insertSeller (Seller s) {
-        this.sellerBusiness.insertSeller(s);
+    public void setSaleBusiness(ISaleBusiness saleBusiness) {
+        this.saleBusiness = saleBusiness;
     }
 
-    public void updateSeller (Seller s) {
-        this.sellerBusiness.updateSeller(s);
+    public ISellerBusiness getSellerBusiness() {
+        return sellerBusiness;
     }
 
-    public void deleteSeller (Seller s) {
-        this.sellerBusiness.deleteSeller(s);
+    public void setSellerBusiness(ISellerBusiness sellerBusiness) {
+        this.sellerBusiness = sellerBusiness;
     }
 
-    public void insertCustomer (Customer s) {
-        this.customerBusiness.insertCustomer(s);
+    public IShopBusiness getShopBusiness() {
+        return shopBusiness;
     }
 
-    public void updateCustomer (Customer s) {
-        this.customerBusiness.updateCustomer(s);
+    public void setShopBusiness(IShopBusiness shopBusiness) {
+        this.shopBusiness = shopBusiness;
     }
 
-    public void deleteCustomer (Customer s) {
-        this.customerBusiness.deleteCustomer(s);
+    public IVehicleBusiness getVehicleBusiness() {
+        return vehicleBusiness;
     }
 
-    public void insertSale (Sale s) {
-        this.saleBusiness.insertSale(s);
+    public void setVehicleBusiness(IVehicleBusiness vehicleBusiness) {
+        this.vehicleBusiness = vehicleBusiness;
     }
 
-    public void updateSale (Sale s) {
-        this.saleBusiness.updateSale(s);
+    public IVehicleBrandBusiness getVehicleBrandBusiness() {
+        return vehicleBrandBusiness;
     }
 
-    public void deleteSale (Sale s) {
-        this.saleBusiness.deleteSale(s);
+    public void setVehicleBrandBusiness(IVehicleBrandBusiness vehicleBrandBusiness) {
+        this.vehicleBrandBusiness = vehicleBrandBusiness;
     }
 
 }

@@ -1,12 +1,14 @@
 package app.java.repository;
 
 import app.java.basic.VehicleBrand;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleBrandRepository {
     private List<VehicleBrand> brands;
 
     public VehicleBrandRepository() {
+        this.brands = new ArrayList ();
     }
 
     public VehicleBrandRepository(List<VehicleBrand> brands) {

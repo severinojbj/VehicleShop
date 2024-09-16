@@ -1,21 +1,21 @@
 package app.java.business;
 
 import app.java.basic.Seller;
+import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
 import app.java.exception.DataNotExistsException;
-import app.java.exception.EmptyDataException;
 import java.util.List;
 
 public interface ISellerBusiness {
 
-    public List<Seller> listAllSellers () throws EmptyDataException;
+    public List<Seller> listAllSellers () throws DataNotExistsException;
 
-    public Seller searchSellerByCPF (String CPF) throws DataNotExistsException, EmptyDataException;    
+    public Seller searchSellerByName (String name) throws DataEmptyException, DataNotExistsException;   
 
-    public void insertSeller (Seller seller) throws DataExistsException, EmptyDataException;
+    public void insertSeller (String CPF, String name, String phoneNumber) throws DataEmptyException, DataExistsException;
 
-    public void updateSeller (Seller seller) throws DataNotExistsException, EmptyDataException;
+    public void updateSeller (String CPF, String name, String phoneNumber) throws DataEmptyException, DataNotExistsException;
 
-    public void deleteSeller (Seller seller) throws DataNotExistsException, EmptyDataException;  
+    public void deleteSeller (String CPF) throws DataEmptyException, DataNotExistsException;   
 
 }

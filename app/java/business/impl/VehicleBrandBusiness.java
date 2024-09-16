@@ -2,9 +2,9 @@ package app.java.business.impl;
 
 import app.java.basic.VehicleBrand;
 import app.java.business.IVehicleBrandBusiness;
+import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
 import app.java.exception.DataNotExistsException;
-import app.java.exception.EmptyDataException;
 import app.java.repository.VehicleBrandRepository;
 import java.util.List;
 
@@ -24,88 +24,123 @@ public class VehicleBrandBusiness implements IVehicleBrandBusiness{
         this.brandData = brandData;
     }
 
-    @Override
-    public List<VehicleBrand> listAllVehicleBrands() throws EmptyDataException {
-        List<VehicleBrand> resp = this.brandData.getBrands ();
-        if (resp.isEmpty()) {
-            throw new EmptyDataException ("VehicleBrand");
+    private VehicleBrand internalSearchVehicleBrandByID (int id) {
+        VehicleBrand resp = null;
+        List<VehicleBrand> list = this.brandData.getBrands();
+        if (list != null) {
+            int contador = 0;
+            boolean isEqual = false;
+            while (!isEqual && contador < list.size()) {
+                isEqual = list.get(contador).getId() == id;
+                if (isEqual == true) {
+                    resp = list.get(contador);
+                }
+                contador++;
+            }
+        }
+        return resp;
+    }
+
+    private VehicleBrand internalSearchVehicleBrandByName (String name) {
+        VehicleBrand resp = null;
+        List<VehicleBrand> list = this.brandData.getBrands();
+        if (list != null) {
+            int contador = 0;
+            boolean isEqual = false;
+            while (!isEqual && contador < list.size()) {
+                isEqual = list.get(contador).getName().equals(name);
+                if (isEqual == true) {
+                    resp = list.get(contador);
+                }
+                contador++;
+            }
         }
         return resp;
     }
 
     @Override
-    public VehicleBrand searchVehicleBrandByID(int id) throws DataNotExistsException, EmptyDataException {
-        VehicleBrand resp = null;
-        List<VehicleBrand> list = this.listAllVehicleBrands();
-        for (VehicleBrand item: list) {
-            if (item.getId() == id) {
-                    resp = item;
-            }
-        }
+    public List<VehicleBrand> listAllVehicleBrands() throws DataNotExistsException {
+        List<VehicleBrand> resp = this.brandData.getBrands();
         if (resp == null) {
             throw new DataNotExistsException ("VehicleBrand");
-        }           
+        }
         return resp;
     }
 
     @Override
-    public VehicleBrand searchVehicleBrandByName (String name) throws DataNotExistsException, EmptyDataException {
+    public VehicleBrand searchVehicleBrandByID(int id) throws DataNotExistsException {
+        VehicleBrand resp = this.internalSearchVehicleBrandByID (id);
+        if (resp == null) {
+            throw new DataNotExistsException ("VehicleBrand");
+        }
+        return resp;
+    }
+
+    @Override
+    public VehicleBrand searchVehicleBrandByName (String name) throws DataEmptyException, DataNotExistsException {
         VehicleBrand resp = null;
-        try {
-            List<VehicleBrand> list = this.listAllVehicleBrands();
-            for (VehicleBrand item: list) {
-                if (item.getName().equalsIgnoreCase(name)) {
-                    resp = item;
-                }
-            }
+        if (name != null) {
+            resp = this.internalSearchVehicleBrandByName(name);
             if (resp == null) {
                 throw new DataNotExistsException ("VehicleBrand");
             }
         }
-        catch (DataNotExistsException e) {
-            throw e;
-        }            
+        else {
+            throw new DataEmptyException ("VehicleBrand");
+        }
         return resp;
     }
 
     @Override
-    public void insertVehicleBrand(VehicleBrand vehicleBrand) throws DataExistsException, EmptyDataException {
-        if (vehicleBrand != null) {
-            try {
-                VehicleBrand vehicleBrandExists = this.searchVehicleBrandByID(vehicleBrand.getId());
+    public void insertVehicleBrand(String name) throws DataEmptyException, DataExistsException {
+        if (name != null) { 
+            VehicleBrand vehicleBrandExists = this.internalSearchVehicleBrandByName(name);
+            if (vehicleBrandExists == null) {
+                int index = this.brandData.getBrands().size();
+                VehicleBrand vehicleBrand = new VehicleBrand(index, name);
+                this.brandData.addVehicleBrand(vehicleBrand);
+            }
+            else {
                 throw new DataExistsException ("VehicleBrand");
             }
-            catch (DataNotExistsException e) {
-                this.brandData.addVehicleBrand(vehicleBrand);
-            }    
         }
         else {
-            throw new EmptyDataException ("VehicleBrand");
+            throw new DataEmptyException("VehicleBrand");
         }
     }
 
     @Override
-    public void updateVehicleBrand(VehicleBrand vehicleBrand) throws DataNotExistsException, EmptyDataException {
-        if (vehicleBrand != null) {
-            VehicleBrand vehicleBrandExists = this.searchVehicleBrandByID(vehicleBrand.getId());
-            int index = this.brandData.getBrands().indexOf(vehicleBrandExists);
-            this.brandData.updateVehicleBrand (index, vehicleBrand);
+    public void updateVehicleBrand(String name) throws DataEmptyException, DataNotExistsException {
+        if (name != null) { 
+            VehicleBrand vehicleBrandExists = this.internalSearchVehicleBrandByName(name);
+            if (vehicleBrandExists != null) {
+                int index = this.brandData.getBrands().indexOf(vehicleBrandExists);
+                VehicleBrand vehicleBrand = new VehicleBrand(index, name);
+                this.brandData.updateVehicleBrand(index, vehicleBrand);
+            }
+            else {
+                throw new DataNotExistsException ("VehicleBrand");
+            }
         }
         else {
-            throw new EmptyDataException ("VehicleBrand");
+            throw new DataEmptyException("VehicleBrand");
         }
     }
 
     @Override
-    public void deleteVehicleBrand(VehicleBrand vehicleBrand) throws DataNotExistsException, EmptyDataException {
-        if (vehicleBrand != null) {
-            VehicleBrand vehicleBrandExists = this.searchVehicleBrandByID(vehicleBrand.getId());
-            this.brandData.removeVehicleBrand (vehicleBrandExists);
+    public void deleteVehicleBrand(String name) throws DataEmptyException, DataNotExistsException {
+        if (name != null) { 
+            VehicleBrand vehicleBrandExists = this.internalSearchVehicleBrandByName(name);
+            if (vehicleBrandExists != null) {
+                this.brandData.removeVehicleBrand(vehicleBrandExists);
+            }
+            else {
+                throw new DataNotExistsException ("VehicleBrand");
+            }
         }
         else {
-            throw new EmptyDataException ("VehicleBrand");
+            throw new DataEmptyException("VehicleBrand");
         }
-    }
-   
+    }   
     
 }
