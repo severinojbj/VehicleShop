@@ -30,5 +30,8 @@ public class VehicleBrand {
         this.name = name;
     }
 
-    
+    @Override
+    public String toString() {
+        return String.format ("ID: %d, NOME: %s", this.id, this.name);
+    }
 }

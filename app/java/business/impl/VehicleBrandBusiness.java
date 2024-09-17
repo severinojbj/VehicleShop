@@ -41,7 +41,7 @@ public class VehicleBrandBusiness implements IVehicleBrandBusiness{
         return resp;
     }
 
-    private VehicleBrand internalSearchVehicleBrandByName (String name) {
+    public VehicleBrand internalSearchVehicleBrandByName (String name) {
         VehicleBrand resp = null;
         List<VehicleBrand> list = this.brandData.getBrands();
         if (list != null) {

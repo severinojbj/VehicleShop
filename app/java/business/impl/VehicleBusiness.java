@@ -13,9 +13,16 @@ import java.util.List;
 public class VehicleBusiness implements IVehicleBusiness {
 
     private VehicleRepository vehicleData;
+    private VehicleBrandBusiness vehicleBrandBusiness;
 
     public VehicleBusiness() {
         this.vehicleData = new VehicleRepository ();
+        this.vehicleBrandBusiness = new VehicleBrandBusiness();
+    }
+
+    public VehicleBusiness(VehicleBrandBusiness vehicleBrandBusiness) {
+        this.vehicleData = new VehicleRepository ();
+        this.vehicleBrandBusiness = vehicleBrandBusiness;
     }
 
     public VehicleRepository getVehicleData() {
@@ -86,26 +93,89 @@ public class VehicleBusiness implements IVehicleBusiness {
     }
 
     @Override
-    public void updateVehicle (VehicleBrand brand, String model, String plate, String category,
-    String description, int year, double price) throws DataEmptyException, DataNotExistsException {
-        Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
-        if (vehicleExists != null) {
-            int index = this.vehicleData.getVehicles().indexOf(vehicleExists);
-            this.vehicleData.updateVehicle (index, vehicle);
+    public void insertVehicle(String brandName, String model, String plate, String category,
+            String description, int year, double price) throws DataEmptyException, DataExistsException {    
+        if (plate != null) {
+            Vehicle vehicleExists = this.internalSearchVehicleByPlate(plate);
+            if (vehicleExists == null) {
+                VehicleBrand brand = this.vehicleBrandBusiness.internalSearchVehicleBrandByName(brandName);
+                if (brand == null) {
+                    this.vehicleBrandBusiness.insertVehicleBrand(brandName);
+                    int lastIndex = this.vehicleBrandBusiness.getBrandData().getBrands().size();
+                    brand = this.vehicleBrandBusiness.getBrandData().getBrands().get(lastIndex);
+                }
+                Vehicle vehicle = new Vehicle (brand, model, plate, category,
+                    description, year, price);
+                this.vehicleData.addVehicle(vehicle);
+            }   
+            else {
+                throw new DataExistsException ("Vehicle");
+            }             
         }
         else {
-            throw new DataNotExistsException ("Vehicle");
-        }   
+            throw new DataEmptyException ("Vehicle");
+        }
     }
 
     @Override
-    public void deleteVehicle(String plate) throws DataEmptyException, DataNotExistsException {
-        Vehicle vehicleExists = this.searchVehicleByPlate(vehicle.getPlate());
-        if (vehicleExists != null) {
-            this.vehicleData.removeVehicle (vehicleExists);
+    public void updateVehicle (VehicleBrand brand, String model, String plate, String category,
+    String description, int year, double price) throws DataEmptyException, DataNotExistsException {
+        if (plate != null) {
+            Vehicle vehicleExists = this.internalSearchVehicleByPlate(plate);
+            if (vehicleExists != null) {
+                int index = this.vehicleData.getVehicles().indexOf(vehicleExists);
+                Vehicle vehicle = new Vehicle(brand, model, plate, category, description, year, price);
+                this.vehicleData.updateVehicle (index, vehicle);
+            }
+            else {
+                throw new DataNotExistsException ("Vehicle");
+            }   
         }
         else {
-            throw new DataNotExistsException ("Vehicle");
+            throw new DataEmptyException("Vehicle");
+        }
+    }
+
+    @Override
+    public void updateVehicle (String brandName, String model, String plate, String category,
+    String description, int year, double price) throws DataEmptyException, DataExistsException, DataNotExistsException {
+        if (plate != null) {
+            Vehicle vehicleExists = this.searchVehicleByPlate(plate);
+            if (vehicleExists != null) {
+                VehicleBrand brand = this.vehicleBrandBusiness.internalSearchVehicleBrandByName(brandName);
+                if (brand == null) {
+                    this.vehicleBrandBusiness.insertVehicleBrand(brandName);
+                    int lastIndex = this.vehicleBrandBusiness.getBrandData().getBrands().size();
+                    brand = this.vehicleBrandBusiness.getBrandData().getBrands().get(lastIndex);
+                }                
+                int index = this.vehicleData.getVehicles().indexOf(vehicleExists);
+                Vehicle vehicle = new Vehicle (brand, model, plate, category,
+                    description, year, price);
+                this.vehicleData.updateVehicle (index, vehicle);
+            }   
+            else {
+                throw new DataNotExistsException ("Vehicle");
+            }             
+        }
+        else {
+            throw new DataEmptyException ("Vehicle");
+        }
+    }
+
+
+    @Override
+    public void deleteVehicle(String plate) throws DataEmptyException, DataNotExistsException {
+        if (plate != null) {
+            Vehicle vehicleExists = this.internalSearchVehicleByPlate(plate);
+            if (vehicleExists != null) {
+                this.vehicleData.removeVehicle(vehicleExists);
+            }
+            else {
+                throw new DataNotExistsException ("Vehicle");
+            }   
+        }
+        else {
+            throw new DataEmptyException("Vehicle");
         }
     }
   

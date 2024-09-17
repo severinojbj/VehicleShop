@@ -80,4 +80,17 @@ public class Vehicle {
         this.price = price;
     }    
     
+    @Override
+    public String toString() {
+        return String.format ("PLACA: %s, MARCA: %s, MODELO: %s, CATEGORIA: %s, DESCRIÇÃO: %s, ANO: %s, PREÇO: %s", 
+            this.brand.getName(),
+            this.model,
+            this.plate,
+            this.category,
+            this.description,
+            this.year,
+            this.price
+        );
+    }
+
 }

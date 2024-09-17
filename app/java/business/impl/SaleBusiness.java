@@ -1,6 +1,9 @@
 package app.java.business.impl;
 
+import app.java.basic.Customer;
 import app.java.basic.Sale;
+import app.java.basic.Seller;
+import app.java.basic.Vehicle;
 import app.java.business.ISaleBusiness;
 import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
@@ -17,6 +20,9 @@ public class SaleBusiness implements ISaleBusiness{
 
     public SaleBusiness() {
         this.saleData = new SaleRepository();
+        this.customerBusiness = new CustomerBusiness();
+        this.sellerBusiness = new SellerBusiness();
+        this.vehicleBusiness = new VehicleBusiness();
     }
 
     public SaleBusiness (CustomerBusiness customerBusiness, SellerBusiness sellerBusiness,
@@ -62,7 +68,7 @@ public class SaleBusiness implements ISaleBusiness{
     }
 
     @Override
-    public Sale searchSaleByID(int id) throws DataNotExistsException {
+    public Sale searchSaleByID(int id) throws DataEmptyException, DataNotExistsException {
         Sale resp = this.internalSearchSaleById(id);
         if (resp == null) {
             throw new DataNotExistsException ("Sale");
@@ -72,29 +78,60 @@ public class SaleBusiness implements ISaleBusiness{
 
     @Override
     public void insertSale(double value, 
-        String CPFCustomer, String nameSeller, String carPlate, 
-        String sellData) throws DataEmptyException, DataExistsException {
-        // try {
-        //     Sale saleExists = this.searchSaleByID(sale.getId());
-        //     throw new DataExistsException ("Sale");
-        // }
-        // catch (DataNotExistsException e) {
-        //     this.saleData.addSale(sale);
-        // }    
+            String CPFCustomer, String nameSeller, String carPlate, 
+            String sellData) throws DataEmptyException, DataNotExistsException {
+        try {
+            Customer customer = this.customerBusiness.searchCustomerByCPF(CPFCustomer);
+            Seller seller = this.sellerBusiness.searchSellerByName(nameSeller);
+            Vehicle vehicle = this.vehicleBusiness.searchVehicleByPlate(carPlate);
+            int index = this.saleData.getSales().size();
+            Sale sale = new Sale(index, value, customer, seller, vehicle, sellData);
+            this.saleData.addSale(sale);
+        }
+        catch (DataEmptyException e1) {
+            throw e1;
+        }
+        catch (DataNotExistsException e2) {
+            throw e2;
+        }
     }
 
     @Override
-    public void updateSale (double value, String CPFCustomer, String nameSeller, 
-        String carPlate, String sellData) throws DataEmptyException, DataNotExistsException {
-        // Sale saleExists = this.searchSaleByID(sale.getId());
-        // int index = this.saleData.getSales().indexOf(saleExists);
-        // this.saleData.updateSale (index, sale);
+    public void updateSale (int id, double value, String CPFCustomer, String nameSeller, 
+            String carPlate, String sellData) throws DataEmptyException, DataNotExistsException {
+        
+        Sale saleExists = this.saleData.getSales().get(id);
+        if (saleExists != null) {
+            try {           
+                Customer customer = this.customerBusiness.searchCustomerByCPF(CPFCustomer);
+                Seller seller = this.sellerBusiness.searchSellerByName(nameSeller);
+                Vehicle vehicle = this.vehicleBusiness.searchVehicleByPlate(carPlate);
+                Sale sale = new Sale(id, value, customer, seller, vehicle, sellData);
+                this.saleData.updateSale(id, sale);
+            }
+            catch (DataEmptyException e1) {
+                throw e1;
+            }
+            catch (DataNotExistsException e2) {
+                throw e2;
+            }
+        }
+        else {
+            throw new DataNotExistsException("Sale");
+        }        
+                
     }
 
     @Override
-    public void deleteSale(Sale sale) throws DataEmptyException, DataNotExistsException {
-        Sale saleExists = this.searchSaleByID(sale.getId());
-        this.saleData.removeSale(saleExists);
+    public void deleteSale(int id) throws DataEmptyException, DataNotExistsException {
+        
+        Sale saleExists = this.saleData.getSales().get(id);
+        if (saleExists != null) {
+            this.saleData.removeSale(saleExists);
+        }
+        else {
+            throw new DataNotExistsException("Sale");
+        }
     }    
 
 }

@@ -16,8 +16,14 @@ public interface IVehicleBusiness {
     public void insertVehicle (VehicleBrand brand, String model, String plate, String category,
         String description, int year, double price) throws DataEmptyException, DataExistsException;
 
+    public void insertVehicle(String brandName, String model, String plate, String category,
+        String description, int year, double price) throws DataEmptyException, DataExistsException;
+
     public void updateVehicle (VehicleBrand brand, String model, String plate, String category,
-    String description, int year, double price) throws DataEmptyException, DataNotExistsException;
+        String description, int year, double price) throws DataEmptyException, DataNotExistsException;
+
+    public void updateVehicle(String brandName, String model, String plate, String category,
+        String description, int year, double price) throws DataEmptyException, DataExistsException, DataNotExistsException;
 
     public void deleteVehicle (String plate) throws DataEmptyException, DataNotExistsException;    
 

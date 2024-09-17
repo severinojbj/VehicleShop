@@ -3,6 +3,8 @@ package app.java;
 import app.java.service.Service;
 
 public class App {
+
+
     public static void main (String [] args) {
         // Customer c = new Customer ();
         // System.out.println (c.getCPF());
@@ -16,8 +18,9 @@ public class App {
 
         // s.insertVehicle("Ford", "Ecosport", "XXX-8D45");
         // System.out.println (s.getVehicleBusiness().listAllVehicles().get(0).getPlate());
-        String message = s.insertCustomer("00991202", "hjsdjhajgh");
-        String message2 = s.insertCustomer("00991202", "hjsdjhajgh");
-        System.out.println (message2);
+        String message = s.insertCustomer("00991202", "hjsdjhajgh", "0000");
+        String message2 = s.insertCustomer("00991203", "hjsdjhajgh", "1111");
+        String message3 = s.listAllCustomers();
+        System.out.println (message3);
     }
 }
