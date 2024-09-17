@@ -11,9 +11,20 @@ import java.util.List;
 public class SaleBusiness implements ISaleBusiness{
 
     private SaleRepository saleData;
+    private CustomerBusiness customerBusiness;
+    private SellerBusiness sellerBusiness;
+    private VehicleBusiness vehicleBusiness;
 
     public SaleBusiness() {
         this.saleData = new SaleRepository();
+    }
+
+    public SaleBusiness (CustomerBusiness customerBusiness, SellerBusiness sellerBusiness,
+            VehicleBusiness vehicleBusiness){
+        this.saleData = new SaleRepository();
+        this.customerBusiness = customerBusiness;
+        this.sellerBusiness = sellerBusiness;
+        this.vehicleBusiness = vehicleBusiness;
     }
 
     public SaleRepository getSaleData() {
@@ -60,8 +71,9 @@ public class SaleBusiness implements ISaleBusiness{
     }
 
     @Override
-    public void insertSale(double value, String CPFCustomer, String nameSeller, 
-        String carPlate, String sellData) throws DataEmptyException, DataExistsException {
+    public void insertSale(double value, 
+        String CPFCustomer, String nameSeller, String carPlate, 
+        String sellData) throws DataEmptyException, DataExistsException {
         // try {
         //     Sale saleExists = this.searchSaleByID(sale.getId());
         //     throw new DataExistsException ("Sale");
