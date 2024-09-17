@@ -47,6 +47,11 @@ public class Shop {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    
+
+    @Override
+    public String toString() {
+        return String.format ("NOME: %s, ENDEREÇO: %s, TELEFONE: %s", this.name, this.location, this.phoneNumber);
+    }
+       
     
 }

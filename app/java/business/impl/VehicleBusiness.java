@@ -102,7 +102,7 @@ public class VehicleBusiness implements IVehicleBusiness {
                 if (brand == null) {
                     this.vehicleBrandBusiness.insertVehicleBrand(brandName);
                     int lastIndex = this.vehicleBrandBusiness.getBrandData().getBrands().size();
-                    brand = this.vehicleBrandBusiness.getBrandData().getBrands().get(lastIndex);
+                    brand = this.vehicleBrandBusiness.getBrandData().getBrands().get(lastIndex - 1);
                 }
                 Vehicle vehicle = new Vehicle (brand, model, plate, category,
                     description, year, price);

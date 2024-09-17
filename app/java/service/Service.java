@@ -58,6 +58,24 @@ public class Service {
         return message;
     }
 
+    public String searchVehicleByPlate (String plate) {
+        String message = "";
+        try {
+            Vehicle vehicle = this.vehicleBusiness.searchVehicleByPlate(plate);
+            message = "Veículo encontrado. " + vehicle.toString();
+        }
+        catch (DataNotExistsException e1) {
+            message = "ERRO: ao procurar dados do veículo -> placa não encontrada.";
+        }
+        catch (DataEmptyException e2) {
+            message = "ERRO: ao procurar dados do veículo -> placa não informada ou ausente.";
+        }
+        catch (Exception e3) {
+            message = "ERRO: ao procurar dados do veículo -> falha desconhecida.";
+        }
+        return message;
+    }
+
     public String insertVehicle (String brandName, String model, String plate, String category,
             String description, int year, double price) {
         String message = String.format("Veículo MODELO %s, CATEGORIA %s, PLACA %s cadastrado com sucesso.", model, category, plate);        
@@ -126,7 +144,7 @@ public class Service {
     }
 
     public String insertShop (String name, String location, String phoneNumber) {
-        String message = String.format("Loja NOME %s, ENDEREÇO %d, TELEFONE %s cadastrada com sucesso.", name, location, phoneNumber);        
+        String message = String.format("Loja NOME %s, ENDEREÇO %s, TELEFONE %s cadastrada com sucesso.", name, location, phoneNumber);        
         try {
             this.shopBusiness.insertShop(name, location, phoneNumber);
         }
@@ -143,7 +161,7 @@ public class Service {
     }
 
     public String updateShop (String name, String location, String phoneNumber) {
-        String message = String.format("Loja NOME %s, ENDEREÇO %d, TELEFONE %s atualizada com sucesso.", name, location, phoneNumber);        
+        String message = String.format("Loja NOME %s, ENDEREÇO %s, TELEFONE %s atualizada com sucesso.", name, location, phoneNumber);        
         try {
             this.shopBusiness.updateShop(name, location, phoneNumber);
         }
@@ -455,5 +473,4 @@ public class Service {
     public void setVehicleBrandBusiness(IVehicleBrandBusiness vehicleBrandBusiness) {
         this.vehicleBrandBusiness = vehicleBrandBusiness;
     }
-
 }

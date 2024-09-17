@@ -6,7 +6,6 @@ import app.java.basic.Seller;
 import app.java.basic.Vehicle;
 import app.java.business.ISaleBusiness;
 import app.java.exception.DataEmptyException;
-import app.java.exception.DataExistsException;
 import app.java.exception.DataNotExistsException;
 import app.java.repository.SaleRepository;
 import java.util.List;
