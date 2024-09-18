@@ -1,10 +1,9 @@
 package app.java;
 
-import java.util.Scanner;
-
 import app.java.exception.DataEmptyException;
 import app.java.exception.DataExistsException;
 import app.java.service.Service;
+import java.util.Scanner;
 
 public class App {
 
@@ -98,6 +97,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuVehicle(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("b")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b")) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
@@ -113,6 +115,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuShop(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("b")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b")) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
@@ -128,6 +133,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSeller(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("b")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b")) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
@@ -144,6 +152,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuCustomer(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("c")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b") &&
                             !subMenuOption.equals("c")) {
@@ -160,6 +171,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSale(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("b")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b")) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
@@ -214,6 +228,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuVehicle(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("d")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b") && 
                             !subMenuOption.equals("c") && 
@@ -233,6 +250,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuShop(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("d")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b") && 
                             !subMenuOption.equals("c") && 
@@ -252,6 +272,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSeller(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("d")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b") && 
                             !subMenuOption.equals("c") && 
@@ -271,6 +294,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuCustomer(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("d")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b") && 
                             !subMenuOption.equals("c") && 
@@ -289,6 +315,9 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSale(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
+                    if (!subMenuOption.equals("c")) {
+                        s.nextLine();
+                    }
                     if (!subMenuOption.equals("a") && 
                             !subMenuOption.equals("b") &&
                             !subMenuOption.equals("c")) {
@@ -368,7 +397,7 @@ public class App {
                         System.out.println ("Digite o preço do carro a ser atualizado: ");
                         System.out.print ("Preço: ");
                         price = s.nextDouble();
-                        this.service.updateVehicle(brandName, model, plate, category, description, year, price);
+                        message = this.service.updateVehicle(brandName, model, plate, category, description, year, price);
                         break;
                 }
             }
