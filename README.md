@@ -7,4 +7,4 @@ javac -d build app/java/App.java
 cd build
 
 - Gerar o pacote executável (jar) com o comando:
-jar -cmfe ..\META-INF\MANIFEST.MF App.jar app.java.App -C . .
+jar -cmfe ../META-INF/MANIFEST.MF App.jar app.java.App -C . .

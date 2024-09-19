@@ -97,11 +97,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuVehicle(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("b")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b")) {
+                    if (!"ab".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -115,11 +111,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuShop(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("b")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b")) {
+                    if (!"ab".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -133,11 +125,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSeller(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("b")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b")) {
+                    if (!"ab".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -152,12 +140,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuCustomer(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("c")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b") &&
-                            !subMenuOption.equals("c")) {
+                    if (!"abc".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -171,11 +154,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSale(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("b")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b")) {
+                    if (!"ab".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -228,13 +207,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuVehicle(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("d")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b") && 
-                            !subMenuOption.equals("c") && 
-                            !subMenuOption.equals("d")) {
+                    if (!"abcd".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -250,13 +223,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuShop(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("d")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b") && 
-                            !subMenuOption.equals("c") && 
-                            !subMenuOption.equals("d")) {
+                    if (!"abcd".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -272,13 +239,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSeller(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("d")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b") && 
-                            !subMenuOption.equals("c") && 
-                            !subMenuOption.equals("d")) {
+                    if (!"abcd".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -294,13 +255,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuCustomer(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("d")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b") && 
-                            !subMenuOption.equals("c") && 
-                            !subMenuOption.equals("d")) {
+                    if (!"abcd".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -315,12 +270,7 @@ public class App {
                     subMenuOption = s.nextLine();
                     message = this.processMenuSale(s, welcomeOption, menuOption, subMenuOption);
                     System.out.println ("\n" + message + "\n");
-                    if (!subMenuOption.equals("c")) {
-                        s.nextLine();
-                    }
-                    if (!subMenuOption.equals("a") && 
-                            !subMenuOption.equals("b") &&
-                            !subMenuOption.equals("c")) {
+                    if (!"abc".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
                 }
@@ -401,6 +351,7 @@ public class App {
                         break;
                 }
             }
+            s.nextLine();
         }
         return message;
     }
@@ -451,6 +402,7 @@ public class App {
                         break;
                 }
             }
+            s.nextLine();
         }
         return message;
     }
@@ -504,6 +456,7 @@ public class App {
                         break;
                 }
             }
+            s.nextLine();
         }
         return message;
     }
@@ -573,6 +526,7 @@ public class App {
                         break;
                 }
             }
+            s.nextLine();
         }
         return message;
     }
@@ -634,6 +588,7 @@ public class App {
                         break;
                 }
             }
+            s.nextLine();
         }
         return message;
     }
