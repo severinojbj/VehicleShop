@@ -1,7 +1,5 @@
 package app.java;
 
-import app.java.exception.DataEmptyException;
-import app.java.exception.DataExistsException;
 import app.java.service.Service;
 import java.util.Scanner;
 
@@ -596,13 +594,6 @@ public class App {
         App app = new App ();
         int appOption = 0;
 
-        try {
-            app.service.getVehicleBusiness().insertVehicle("Ford", "Ecosport", "xxx-3452", "SUV", "teste", 2023, 100.0);
-        } catch (DataEmptyException | DataExistsException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
         while (appOption != 3) {
             appOption = app.processFrontWelcome(s);
         }
