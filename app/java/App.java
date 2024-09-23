@@ -205,7 +205,7 @@ public class App {
                         + "- d: Voltar ao menu superior\n");
                     System.out.print("Opção: ");
                     subMenuOption = s.nextLine();
-                    message = this.processMenuVehicle(s, welcomeOption, menuOption, subMenuOption);
+                    message = this.processMenuVehicle(s, welcomeOption, menuOption, subMenuOption);                 
                     System.out.println ("\n" + message + "\n");
                     if (!"abcd".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
@@ -264,12 +264,12 @@ public class App {
                 while (!subMenuOption.equals ("c")) {
                     System.out.println ("Digite a opção para Gerenciar Venda desejada:\n"
                         + "- a: Cadastrar Venda\n"
-                        + "- b: Exclir Venda\n"
+                        + "- b: Excluir Venda\n"
                         + "- c: Voltar ao menu superior\n");
                     System.out.print("Opção: ");
                     subMenuOption = s.nextLine();
                     message = this.processMenuSale(s, welcomeOption, menuOption, subMenuOption);
-                    System.out.println ("\n" + message + "\n");
+                    
                     if (!"abc".contains(subMenuOption)) {
                         System.out.println("Opção não disponível, tente novamente ou digite a opção para voltar ao menu superior.\n");
                     }
@@ -317,6 +317,7 @@ public class App {
                         System.out.println ("Digite o preço do carro a ser inserido: ");
                         System.out.print ("Preço: ");
                         double price = s.nextDouble();
+                        System.out.println ("\n" + message + "\n");
                         message = this.service.insertVehicle(brandName, model, plate, category, description, year, price);
                         break;
                     case "b":
@@ -347,11 +348,11 @@ public class App {
                         System.out.println ("Digite o preço do carro a ser atualizado: ");
                         System.out.print ("Preço: ");
                         price = s.nextDouble();
+                        System.out.println ("\n" + message + "\n");
                         message = this.service.updateVehicle(brandName, model, plate, category, description, year, price);
                         break;
                 }
             }
-            s.nextLine();
         }
         return message;
     }
@@ -402,7 +403,6 @@ public class App {
                         break;
                 }
             }
-            s.nextLine();
         }
         return message;
     }
@@ -456,7 +456,6 @@ public class App {
                         break;
                 }
             }
-            s.nextLine();
         }
         return message;
     }
@@ -526,7 +525,6 @@ public class App {
                         break;
                 }
             }
-            s.nextLine();
         }
         return message;
     }
@@ -588,7 +586,6 @@ public class App {
                         break;
                 }
             }
-            s.nextLine();
         }
         return message;
     }
